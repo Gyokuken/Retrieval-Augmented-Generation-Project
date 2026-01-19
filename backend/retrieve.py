@@ -1,6 +1,10 @@
 from db import get_conn
 from embeddings import embed_text
 
+import os
+print("DB HOST USED:", os.getenv("SUPABASE_DB_HOST"))
+
+
 def retrieve_chunks(query: str, top_k: int = 6):
     #  Embed query (ensure Python list)
     query_embedding = embed_text(query)
@@ -44,3 +48,4 @@ def retrieve_chunks(query: str, top_k: int = 6):
         })
 
     return results
+
