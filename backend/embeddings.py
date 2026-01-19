@@ -1,32 +1,30 @@
 import os
 import requests
 
-HF_API_TOKEN = os.getenv("HF_API_TOKEN")
-HF_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-# HF_URL = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{HF_MODEL}"
-HF_URL = f"https://router.huggingface.co/hf-inference/pipeline/feature-extraction/{HF_MODEL}"
+HF_API_KEY = os.getenv("HF_API_KEY")
 
-HEADERS = {
-    "Authorization": f"Bearer {HF_API_TOKEN}",
-    "Content-Type": "application/json",
-}
+HF_API_URL = (
+    "https://router.huggingface.co/hf-inference/"
+    "models/sentence-transformers/all-MiniLM-L6-v2"
+)
 
 def embed_text(text: str) -> list[float]:
+    headers = {
+        "Authorization": f"Bearer {HF_API_KEY}",
+        "Content-Type": "application/json",
+    }
+
     resp = requests.post(
-        HF_URL,
-        headers=HEADERS,
+        HF_API_URL,
+        headers=headers,
         json={"inputs": text},
         timeout=30,
     )
 
     if resp.status_code != 200:
-        raise RuntimeError(f"HF embedding failed: {resp.text}")
+        raise RuntimeError(f"HF embedding failed: {resp.status_code} {resp.text}")
 
     embedding = resp.json()
 
-    # HF returns [[...]] for single input
-    if isinstance(embedding[0], list):
-        embedding = embedding[0]
-
-    return embedding
-
+    # HF returns: [[float, float, ...]]
+    return embedding[0]
