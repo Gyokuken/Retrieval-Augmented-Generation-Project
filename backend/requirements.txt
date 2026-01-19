@@ -7,7 +7,4 @@ qdrant-client
 tiktoken
 requests
 groq
-
-
-
-
+openai>=1.0.0
