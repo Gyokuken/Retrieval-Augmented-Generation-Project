@@ -1,28 +1,16 @@
 import os
-import requests
-from dotenv import load_dotenv
+from groq import Groq
 
-load_dotenv()
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-OLLAMA_URL = os.getenv("OLLAMA_BASE_URL")
+EMBEDDING_MODEL = "nomic-embed-text"  # or recommended Groq embedding model
 
 def embed_texts(texts: list[str]) -> list[list[float]]:
-    embeddings = []
+    resp = client.embeddings.create(
+        model=EMBEDDING_MODEL,
+        input=texts,
+    )
+    return [d.embedding for d in resp.data]
 
-    for text in texts:
-        resp = requests.post(
-            f"{OLLAMA_URL}/api/embeddings",
-            json={
-                "model": "nomic-embed-text",
-                "prompt": text
-            },
-            timeout=60
-        )
-        resp.raise_for_status()
-        embeddings.append(resp.json()["embedding"])
-
-    return embeddings
-
-
-def embed_text(text: str):
+def embed_text(text: str) -> list[float]:
     return embed_texts([text])[0]
