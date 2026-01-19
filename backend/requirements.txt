@@ -6,6 +6,6 @@ psycopg2-binary
 python-dotenv
 
 sentence-transformers==2.6.1
-torch==2.2.2+cpu
+torch==2.5.1+cpu
 numpy
 scikit-learn
