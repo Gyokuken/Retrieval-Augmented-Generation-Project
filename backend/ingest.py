@@ -1,16 +1,14 @@
 from db import get_conn
 from embeddings import embed_text
 
-
-def chunk_text(text: str, chunk_size: int = 800, overlap: int = 100):
+def chunk_text(text, chunk_size=800, overlap=100):
     words = text.split()
     chunks = []
-
     start = 0
+
     while start < len(words):
         end = start + chunk_size
-        chunk = " ".join(words[start:end])
-        chunks.append(chunk)
+        chunks.append(" ".join(words[start:end]))
         start = end - overlap
 
     return chunks
@@ -22,32 +20,22 @@ def ingest_document(text: str, title: str):
     conn = get_conn()
     cur = conn.cursor()
 
-    try:
-        for idx, chunk in enumerate(chunks):
-            embedding = embed_text(chunk)
+    for idx, chunk in enumerate(chunks):
+        embedding = embed_text(chunk)
 
-            cur.execute(
-                """
-                INSERT INTO documents
-                (content, embedding, source, title, position)
-                VALUES (%s, %s::vector, %s, %s, %s)
-                """,
-                (
-                    chunk,
-                    embedding,
-                    "user_input",
-                    title,
-                    idx,
-                ),
-            )
+        cur.execute(
+            """
+            INSERT INTO documents (content, embedding, source, title, position)
+            VALUES (%s, %s, %s, %s, %s)
+            """,
+            (chunk, embedding, "user_input", title, idx),
+        )
 
-        conn.commit()
+    conn.commit()
+    cur.close()
+    conn.close()
 
-        return {
-            "status": "ok",
-            "chunks_ingested": len(chunks),
-        }
-
-    finally:
-        cur.close()
-        conn.close()
+    return {
+        "status": "ok",
+        "chunks_ingested": len(chunks),
+    }
