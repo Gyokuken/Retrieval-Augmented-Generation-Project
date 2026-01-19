@@ -1,18 +1,30 @@
 import os
-from openai import OpenAI
+import requests
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+HF_API_TOKEN = os.getenv("HF_API_TOKEN")
+HF_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+HF_URL = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{HF_MODEL}"
 
-EMBEDDING_MODEL = "text-embedding-3-small"
-
-
-def embed_texts(texts: list[str]) -> list[list[float]]:
-    resp = client.embeddings.create(
-        model=EMBEDDING_MODEL,
-        input=texts,
-    )
-    return [d.embedding for d in resp.data]
-
+HEADERS = {
+    "Authorization": f"Bearer {HF_API_TOKEN}",
+    "Content-Type": "application/json",
+}
 
 def embed_text(text: str) -> list[float]:
-    return embed_texts([text])[0]
+    resp = requests.post(
+        HF_URL,
+        headers=HEADERS,
+        json={"inputs": text},
+        timeout=30,
+    )
+
+    if resp.status_code != 200:
+        raise RuntimeError(f"HF embedding failed: {resp.text}")
+
+    embedding = resp.json()
+
+    # HF returns [[...]] for single input
+    if isinstance(embedding[0], list):
+        embedding = embedding[0]
+
+    return embedding
