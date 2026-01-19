@@ -1,35 +1,9 @@
-import os
-import requests
+from sentence_transformers import SentenceTransformer
+import numpy as np
 
-HF_API_KEY = os.getenv("HF_API_KEY")
+# Load once at startup (IMPORTANT)
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
-HF_EMBEDDING_URL = (
-    "https://router.huggingface.co/hf-inference/models/"
-    "sentence-transformers/all-MiniLM-L6-v2"
-)
-
-HEADERS = {
-    "Authorization": f"Bearer {HF_API_KEY}",
-    "Content-Type": "application/json",
-}
-
-def embed_text(text: str):
-    resp = requests.post(
-        HF_EMBEDDING_URL,
-        headers=HEADERS,
-        json={"inputs": text},
-        timeout=30,
-    )
-
-    if resp.status_code != 200:
-        raise RuntimeError(
-            f"HF embedding failed: {resp.status_code} {resp.text}"
-        )
-
-    data = resp.json()
-
-    # HF returns: [[float, float, ...]]
-    if not isinstance(data, list) or not isinstance(data[0], list):
-        raise RuntimeError(f"Unexpected HF response: {data}")
-
-    return data[0]
+def embed_text(text: str) -> list[float]:
+    embedding = model.encode(text, normalize_embeddings=True)
+    return embedding.tolist()
