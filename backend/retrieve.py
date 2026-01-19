@@ -15,11 +15,10 @@ def retrieve_chunks(query: str, top_k: int = 6):
         ORDER BY embedding <-> %s::vector
         LIMIT %s
         """,
-        (query_embedding, query_embedding, top_k)
+        (query_embedding, query_embedding, top_k),
     )
 
     rows = cur.fetchall()
-    cur.close()
     conn.close()
 
     return [
