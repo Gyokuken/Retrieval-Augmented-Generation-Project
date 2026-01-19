@@ -9,3 +9,5 @@ sentence-transformers==2.6.1
 torch==2.5.1+cpu
 numpy
 scikit-learn
+
+groq
