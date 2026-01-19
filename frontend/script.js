@@ -1,4 +1,4 @@
-const BACKEND_URL = "http://localhost:8000"; 
+const BACKEND_URL = "https://retrieval-augmented-generation-project-production.up.railway.app"; 
 // change to deployed backend URL later
 
 async function ingest() {
@@ -83,3 +83,4 @@ async function ask() {
       "Something went wrong while generating the answer.";
   }
 }
+
