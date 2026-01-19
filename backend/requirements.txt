@@ -1,10 +1,13 @@
 fastapi
 uvicorn
 python-dotenv
+psycopg2-binary
+numpy
 qdrant-client
 tiktoken
 requests
 groq
+
 
 
 
