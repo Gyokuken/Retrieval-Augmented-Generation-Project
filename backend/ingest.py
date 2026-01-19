@@ -1,11 +1,8 @@
-import requests
 from db import get_conn
-
-OLLAMA_URL = "http://localhost:11434/api/embeddings"
-EMBED_MODEL = "nomic-embed-text"
+from embeddings import embed_text
 
 
-def chunk_text(text, chunk_size=800, overlap=100):
+def chunk_text(text: str, chunk_size: int = 800, overlap: int = 100):
     words = text.split()
     chunks = []
 
@@ -19,16 +16,6 @@ def chunk_text(text, chunk_size=800, overlap=100):
     return chunks
 
 
-def embed(text):
-    resp = requests.post(
-        OLLAMA_URL,
-        json={"model": EMBED_MODEL, "prompt": text},
-        timeout=30,
-    )
-    resp.raise_for_status()
-    return resp.json()["embedding"]
-
-
 def ingest_document(text: str, title: str):
     chunks = chunk_text(text)
 
@@ -37,13 +24,13 @@ def ingest_document(text: str, title: str):
 
     try:
         for idx, chunk in enumerate(chunks):
-            embedding = embed(chunk)
+            embedding = embed_text(chunk)
 
             cur.execute(
                 """
                 INSERT INTO documents
                 (content, embedding, source, title, position)
-                VALUES (%s, %s, %s, %s, %s)
+                VALUES (%s, %s::vector, %s, %s, %s)
                 """,
                 (
                     chunk,
@@ -55,6 +42,7 @@ def ingest_document(text: str, title: str):
             )
 
         conn.commit()
+
         return {
             "status": "ok",
             "chunks_ingested": len(chunks),
