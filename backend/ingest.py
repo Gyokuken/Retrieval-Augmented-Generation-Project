@@ -21,8 +21,11 @@ def ingest_document(text: str, title: str):
     cur = conn.cursor()
 
     for idx, chunk in enumerate(chunks):
-        embedding = embed_text(chunk)
-
+        try:
+            embedding = embed_text(chunk)
+        except Exception :
+            return {"error": "Embedding service unavailable"}
+            
         cur.execute(
             """
             INSERT INTO documents (content, embedding, source, title, position)
@@ -39,3 +42,4 @@ def ingest_document(text: str, title: str):
         "status": "ok",
         "chunks_ingested": len(chunks),
     }
+
