@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Mini RAG - AI Engineer Demo</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Mini RAG Demo</h1>
+            <p class="subtitle"> Retrieval-Augmented Generation with citations </p>
+        </header>
+        <div class="card">
+            <h2>1. Ingest Document</h2> <textarea id="docInput"
+                placeholder="Paste your document text here..."></textarea> <button onclick="ingest()">Ingest
+                Document</button>
+        </div>
+        <div class="card">
+            <h2>2. Ask a Question</h2> <input id="queryInput" placeholder="e.g. What is RAG?" /> <button
+                onclick="ask()">Get Answer</button>
+        </div>
+        <div class="card">
+            <h2>Answer</h2>
+            <p id="answer" class="answer"></p>
+            <p id="timing" class="timing"></p>
+            <h3>Sources</h3>
+            <ul id="sources" class="sources"></ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
