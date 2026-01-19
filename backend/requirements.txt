@@ -1,10 +1,9 @@
 fastapi
 uvicorn
-python-dotenv
+pydantic
 psycopg2-binary
 numpy
-qdrant-client
-tiktoken
-requests
+sentence-transformers
+torch
 groq
-openai>=1.0.0
+python-dotenv
