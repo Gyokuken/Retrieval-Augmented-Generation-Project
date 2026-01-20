@@ -7,4 +7,3 @@ If the user asks to tell everything you know (basically with the intent to know 
 you tell them to be specific and not leak the whole database's information!!!
 
 """
-
