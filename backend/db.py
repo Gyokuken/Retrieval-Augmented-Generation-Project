@@ -2,7 +2,7 @@ import os
 import psycopg2
 from dotenv import load_dotenv
 
-load_dotenv()  # 🔑 THIS IS CRITICAL
+load_dotenv() 
 
 def get_conn():
     host = os.getenv("SUPABASE_DB_HOST")
@@ -25,4 +25,5 @@ def get_conn():
         sslmode="require"
     )
     
+
 
