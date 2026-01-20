@@ -5,7 +5,7 @@ You ingest documents, embed them, store them in a vector database, and query the
 
 ---
 
-## 🚀 Features
+## Features
 
 - FastAPI backend
 - Groq-powered LLM inference (fast + cheap)
@@ -16,7 +16,7 @@ You ingest documents, embed them, store them in a vector database, and query the
 
 ---
 
-## 🧠 Architecture (High Level)
+## Architecture (High Level)
 
 1. Documents are loaded and split into chunks  
 2. Chunks are converted to embeddings  
@@ -28,9 +28,9 @@ This is **actual RAG**, not “prompt stuffing pretending to be RAG”.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
-```bash
+```sh
 ├── backend/
 │ ├── main.py # FastAPI entry point
 │ ├── rag.py # RAG pipeline logic
@@ -45,7 +45,7 @@ This is **actual RAG**, not “prompt stuffing pretending to be RAG”.
 
 ---
 
-## 🛠️ Requirements
+## Requirements
 
 - Python **3.9+**
 - Groq API key
@@ -53,7 +53,7 @@ This is **actual RAG**, not “prompt stuffing pretending to be RAG”.
 
 ---
 
-## 📦 Installation
+## Installation
 
 ```bash
 git clone <your-repo-url>
@@ -108,7 +108,7 @@ Swagger UI (use this, it's there for a reasons)
 ```bash
 http://127.0.0.1:8000/docs
 ```
-## 🔍 Querying the RAG System
+## Querying the RAG System
 
 Typical flow:
 
@@ -146,7 +146,7 @@ If Groq isn’t here, RAG isn’t happening. Period.
 
 ---
 
-## 🧪 Notes & Gotchas
+## Notes & Gotchas
 RAG quality depends more on chunking strategy than the LLM
 
 Smaller chunks ≠ always better
@@ -157,7 +157,7 @@ This backend works fine without a frontend; test via Swagger or Postman
 
 ---
 
-## 🧩 Next Obvious Improvements
+## Next Obvious Improvements
 Auth (JWT)
 
 Streaming responses
@@ -170,7 +170,7 @@ Frontend (only after backend is rock solid)
 
 ---
 
-## 🧠 Final Reality Check
+## Final Reality Check
 
 This is a real RAG backend, not a tutorial toy.
 If you want hallucination-free answers, this is the baseline — not the finish line.
