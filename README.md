@@ -170,19 +170,4 @@ Frontend (only after backend is rock solid)
 
 ---
 
-## Final Reality Check
 
-This is a real RAG backend, not a tutorial toy.
-If you want hallucination-free answers, this is the baseline — not the finish line.
-
-If you want:
-
---Advanced chunking
-
--- Evaluation metrics
-
--- Multi-document reasoning
-
--- Agentic RAG
-
-Say the word.
